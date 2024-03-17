@@ -12,8 +12,9 @@ import java.util.UUID;
 @Setter
 @Builder
 public class HealthRecordDTO {
+
     private UUID id;
-    private StudentTable studentID;
+    private UUID studentID;
     private String condition;
     private String details;
     private String medication;

@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.HealthRecord;
 
+import co.uk.afterschoolclub.userregistration.EmergencyContact.EmergencyContactDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,15 @@ public class HealthRecordRestService {
         List<HealthRecordDTO> healthRecordDTOList = healthRecordApplicationService.getAllHealthRecords();
         return ResponseEntity.status(HttpStatus.OK).body(healthRecordDTOList);
     }
-
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<HealthRecordDTO> editEmergencyContact(@PathVariable UUID id, @RequestBody HealthRecordDTO healthRecordDTO) {
+        try {
+            HealthRecordDTO updatedHealthRecord = healthRecordApplicationService.editHealthRecord(id, healthRecordDTO);
+            return ResponseEntity.ok(updatedHealthRecord);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
     @GetMapping("/getHealthRecord/{id}")
     public ResponseEntity<HealthRecordDTO> getHealthRecordById(@PathVariable UUID id) {
         try {
@@ -42,7 +51,6 @@ public class HealthRecordRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteHealthRecordById(@PathVariable UUID id) {
         try {
@@ -53,5 +61,4 @@ public class HealthRecordRestService {
         }
     }
 
-    // Assuming CSV upload isn't needed for HealthRecords as it wasn't specified.
 }

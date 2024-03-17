@@ -46,6 +46,9 @@ public class AppSecurityConfig {
                         .requestMatchers("/students/uploadCSV").permitAll() // Explicitly permit the create endpoint
                         .requestMatchers( "/students/**","/token").permitAll()
                         .requestMatchers( "/teacher/**","/token").permitAll()
+                        .requestMatchers( "/parent/**","/token").permitAll()
+                        .requestMatchers( "/emergencyContact/**","/token").permitAll()
+                        .requestMatchers( "/healthRecord/**","/token").permitAll()
                         .requestMatchers("/auth/admin/**").hasAuthority("SCOPE_"+ RoleConstants.ADMIN)
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

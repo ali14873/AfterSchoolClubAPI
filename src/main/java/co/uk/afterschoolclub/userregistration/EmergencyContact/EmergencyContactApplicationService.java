@@ -22,6 +22,7 @@ public class EmergencyContactApplicationService {
 
     public EmergencyContactDTO createEmergencyContact(EmergencyContactDTO request) {
         EmergencyContactTable emergencyContact = EmergencyContactTable.builder()
+                .id(request.getId())
                 .studentID(request.getStudentID())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -38,7 +39,7 @@ public class EmergencyContactApplicationService {
         for(EmergencyContactTable contact : emergencyContactRepoInterface.findAll()) {
             EmergencyContactDTO dto = EmergencyContactDTO.builder()
                     .id(contact.getId())
-                    .studentID(contact.getStudentID()) // Ensure proper conversion if necessary
+                    .studentID(contact.getStudentID())
                     .firstName(contact.getFirstName())
                     .lastName(contact.getLastName())
                     .relationship(contact.getRelationship())
@@ -86,5 +87,14 @@ public class EmergencyContactApplicationService {
             throw new RuntimeException("Error processing CSV file", e);
         }
         return createdEmergencyContacts;
+    }
+
+    public void deleteEmergencyContact(UUID id) {
+        Optional<EmergencyContactTable> parentOptional = emergencyContactRepoInterface.findById(id);
+        if (parentOptional.isPresent()) {
+            emergencyContactRepoInterface.delete(parentOptional.get());
+        } else {
+            throw new EntityNotFoundException("Parent not found with ID: " + id);
+        }
     }
 }

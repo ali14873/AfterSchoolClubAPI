@@ -20,20 +20,11 @@ public class EmergencyContactDTO {
     private UUID id;
 
 
-    private StudentTable studentID;
 
-
+    private UUID studentID;
     private String firstName;
-
-
     private String lastName;
-
-
     private String relationship;
-
-
     private String phone;
-
-
     private String email;
 }

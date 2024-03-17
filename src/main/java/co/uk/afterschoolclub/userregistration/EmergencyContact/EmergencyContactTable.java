@@ -19,14 +19,15 @@ import java.util.UUID;
 @Builder
 @Table(name = "EmergencyContactTable")
 public class EmergencyContactTable implements UserDetails {
+
     @Id
     @Column(name = "EmergencyContactID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "StudentID", nullable = false)
-    private StudentTable studentID;
+    private UUID studentID;
 
     @Size(max = 50)
     @Column(name = "FirstName", length = 50)

@@ -43,6 +43,16 @@ public class EmergencyContactRestService {
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteEmergencyContact(@PathVariable UUID id){
+        try {
+            emergencyContactApplicationService.deleteEmergencyContact(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/uploadCSV")
     public ResponseEntity<List<EmergencyContactDTO>> uploadEmergencyContactsCSV(@RequestParam("File") MultipartFile file) {
         if (file.isEmpty()) {

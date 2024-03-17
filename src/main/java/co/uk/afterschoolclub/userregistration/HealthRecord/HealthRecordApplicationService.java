@@ -68,5 +68,23 @@ public class HealthRecordApplicationService {
         }
     }
 
-    // Additional methods for handling specific logic related to HealthRecords
+    public HealthRecordDTO editHealthRecord(UUID id, HealthRecordDTO healthRecordDTO) {
+
+        Optional<HealthRecordTable> healthRecordOptional = healthRecordRepoInterface.findById(id);
+        if (healthRecordOptional.isEmpty()) {
+            throw new EntityNotFoundException("HealthRecord not found with ID: " + id);
+        }
+
+        HealthRecordTable healthRecord = healthRecordOptional.get();
+        healthRecord.setStudentID(healthRecordDTO.getStudentID());
+        healthRecord.setCondition(healthRecordDTO.getCondition());
+        healthRecord.setDetails(healthRecordDTO.getDetails());
+        healthRecord.setMedication(healthRecordDTO.getMedication());
+
+        healthRecordRepoInterface.save(healthRecord);
+
+        return healthRecordDTO;
+
+    }
+
 }

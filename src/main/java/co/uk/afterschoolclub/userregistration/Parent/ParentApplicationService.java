@@ -36,6 +36,7 @@ public class ParentApplicationService {
         List<ParentDTO> parents = new ArrayList<>();
         for(ParentTable parent : parentRepoInterface.findAll()) {
             ParentDTO dto = ParentDTO.builder()
+                    .id(parent.getId())
                     .firstName(parent.getFirstName())
                     .lastName(parent.getLastName())
                     .email(parent.getEmail())
@@ -52,6 +53,7 @@ public class ParentApplicationService {
         if (parentOptional.isPresent()) {
             ParentTable parent = parentOptional.get();
             return ParentDTO.builder()
+                    .id(parent.getId())
                     .firstName(parent.getFirstName())
                     .lastName(parent.getLastName())
                     .email(parent.getEmail())

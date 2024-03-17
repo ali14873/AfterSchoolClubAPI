@@ -20,13 +20,13 @@ import java.util.UUID;
 @Table(name = "HealthRecordTable")
 public class HealthRecordTable  implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "HealthRecordID", nullable = false)
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "StudentID", nullable = false)
-    private StudentTable studentID;
+    private UUID studentID;
 
     @Size(max = 255)
     @Column(name = "Condition")

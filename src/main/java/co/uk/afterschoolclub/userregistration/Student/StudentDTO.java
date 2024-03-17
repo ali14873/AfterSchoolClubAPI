@@ -2,6 +2,8 @@ package co.uk.afterschoolclub.userregistration.Student;
 
 import lombok.*;
 import java.time.LocalDate;
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -9,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class StudentDTO {
 
+    private UUID id;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;

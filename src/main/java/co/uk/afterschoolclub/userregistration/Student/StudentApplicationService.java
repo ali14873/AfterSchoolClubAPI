@@ -39,6 +39,7 @@ public class StudentApplicationService {
         List<StudentDTO> students = new ArrayList<StudentDTO>();
         for(StudentTable student: studentRepoInterface.findAll()){
             StudentDTO dto = StudentDTO.builder()
+                    .id(student.getId())
                     .firstName(student.getFirstName())
                     .lastName(student.getLastName())
                     .dateOfBirth(student.getDateOfBirth())
