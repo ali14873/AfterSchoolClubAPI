@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.Parent;
 
+import co.uk.afterschoolclub.userregistration.Roles.RoleTable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 @Getter
@@ -35,8 +37,16 @@ public class ParentTable implements UserDetails {
     private String email;
 
     @Size(max = 50)
+    @Column(name = "Password", length = 50)
+    private String password;
+
+    @Size(max = 50)
     @Column(name = "Phone", length = 50)
     private String phone;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleTable role;
 
     /**
      * Returns the authorities granted to the user. Cannot return <code>null</code>.
@@ -45,7 +55,7 @@ public class ParentTable implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(this.role);
     }
 
     /**

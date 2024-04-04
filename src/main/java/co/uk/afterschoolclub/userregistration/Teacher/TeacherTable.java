@@ -1,5 +1,7 @@
 package co.uk.afterschoolclub.userregistration.Teacher;
 
+import co.uk.afterschoolclub.userregistration.Auth.IUserDetails;
+import co.uk.afterschoolclub.userregistration.Roles.RoleTable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -7,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "TeacherTable")
-public class TeacherTable implements UserDetails {
+public class TeacherTable implements IUserDetails {
 
     @Id
     @Column(name = "TeacherID", nullable = false)
@@ -35,9 +38,16 @@ public class TeacherTable implements UserDetails {
     @Column(name = "Email", length = 50)
     private String email;
 
+    @Column(name = "Password")
+    private String password;
+
     @Size(max = 50)
     @Column(name = "Phone", length = 50)
     private String phone;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleTable role;
 
     /**
      * Returns the authorities granted to the user. Cannot return <code>null</code>.
@@ -46,7 +56,7 @@ public class TeacherTable implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(this.role);
     }
 
     /**
@@ -56,7 +66,7 @@ public class TeacherTable implements UserDetails {
      */
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     /**
@@ -67,7 +77,7 @@ public class TeacherTable implements UserDetails {
      */
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     /**

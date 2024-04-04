@@ -30,6 +30,7 @@ public class StudentRestService {
         return ResponseEntity.status(HttpStatus.CREATED).body(student);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAll")
     public ResponseEntity<List<StudentDTO>> getAllStudents(){
         List<StudentDTO> studentDTOList = studentApplicationService.getAllStudents();
