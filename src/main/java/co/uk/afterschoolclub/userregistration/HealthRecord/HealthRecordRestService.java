@@ -60,5 +60,32 @@ public class HealthRecordRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @GetMapping("/getByStudentId/{studentId}")
+    public ResponseEntity<List<HealthRecordDTO>> getHealthRecordsByStudentId(@PathVariable UUID studentId) {
+        try {
+            List<HealthRecordDTO> records = healthRecordApplicationService.getHealthRecordsByStudentId(studentId);
+            return ResponseEntity.ok(records);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/countOfHealthRecords")
+    public ResponseEntity<Long> getCountOfHealthRecords() {
+        long count = healthRecordApplicationService.getCountOfHealthRecords();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/countOfIncompleteHealthRecords")
+    public ResponseEntity<Long> getCountOfIncompleteHealthRecords() {
+        long count = healthRecordApplicationService.getCountOfIncompleteHealthRecords();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/countStudentsWithRecords")
+    public ResponseEntity<Long> getCountOfStudentsWithAtLeastOneHealthRecord() {
+        long count = healthRecordApplicationService.getCountOfStudentsWithAtLeastOneHealthRecord();
+        return ResponseEntity.ok(count);
+    }
 
 }

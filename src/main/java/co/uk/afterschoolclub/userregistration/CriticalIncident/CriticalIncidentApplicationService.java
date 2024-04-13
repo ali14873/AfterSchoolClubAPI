@@ -1,5 +1,7 @@
 package co.uk.afterschoolclub.userregistration.CriticalIncident;
 
+import co.uk.afterschoolclub.userregistration.EmergencyContact.EmergencyContactDTO;
+import co.uk.afterschoolclub.userregistration.EmergencyContact.EmergencyContactTable;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class CriticalIncidentApplicationService {
     public CriticalIncidentDTO createCriticalIncident(CriticalIncidentDTO criticalIncidentDTO) {
         CriticalIncidentTable criticalIncident = CriticalIncidentTable.builder()
                 .reportedBy(criticalIncidentDTO.getReportedBy())
+                .studentID(criticalIncidentDTO.getStudentId())
                 .sessionId(criticalIncidentDTO.getSessionId())
                 .incidentDate(criticalIncidentDTO.getIncidentDate())
                 .incidentType(criticalIncidentDTO.getIncidentType())
@@ -38,6 +41,7 @@ public class CriticalIncidentApplicationService {
         return new CriticalIncidentDTO(
                 criticalIncident.getId(),
                 criticalIncident.getReportedBy(),
+                criticalIncident.getStudentID(),
                 criticalIncident.getSessionId(),
                 criticalIncident.getIncidentDate(),
                 criticalIncident.getIncidentType(),
@@ -56,6 +60,7 @@ public class CriticalIncidentApplicationService {
                 .map(incident -> CriticalIncidentDTO.builder()
                         .incidentId(incident.getId())
                         .reportedBy(incident.getReportedBy())
+                        .studentId(incident.getStudentID())
                         .sessionId(incident.getSessionId())
                         .incidentDate(incident.getIncidentDate())
                         .incidentType(incident.getIncidentType())
@@ -74,6 +79,7 @@ public class CriticalIncidentApplicationService {
             return CriticalIncidentDTO.builder()
                     .incidentId(incident.getId())
                     .reportedBy(incident.getReportedBy())
+                    .studentId(incident.getStudentID())
                     .sessionId(incident.getSessionId())
                     .incidentDate(incident.getIncidentDate())
                     .incidentType(incident.getIncidentType())
@@ -101,6 +107,7 @@ public class CriticalIncidentApplicationService {
             // Updating the existing incident with new details
             incident.setReportedBy(criticalIncidentDTO.getReportedBy());
             incident.setSessionId(criticalIncidentDTO.getSessionId());
+            incident.setStudentID(criticalIncidentDTO.getStudentId());
             incident.setIncidentDate(criticalIncidentDTO.getIncidentDate());
             incident.setIncidentType(criticalIncidentDTO.getIncidentType());
             incident.setDescription(criticalIncidentDTO.getDescription());
@@ -116,6 +123,7 @@ public class CriticalIncidentApplicationService {
                     .incidentId(savedIncident.getId())
                     .reportedBy(savedIncident.getReportedBy())
                     .sessionId(savedIncident.getSessionId())
+                    .studentId(savedIncident.getStudentID())
                     .incidentDate(savedIncident.getIncidentDate())
                     .incidentType(savedIncident.getIncidentType())
                     .description(savedIncident.getDescription())
@@ -126,6 +134,39 @@ public class CriticalIncidentApplicationService {
         } else {
             throw new RuntimeException("Critical Incident not found for editing with id: " + id); // Customize this as per your exception handling strategy
         }
+    }
+
+
+    public List<CriticalIncidentDTO> getCriticalIncidentByStudentId(UUID id) {
+        List<CriticalIncidentTable> CriticalIncidentList = criticalIncidentRepository.findBystudentID(id);
+        return CriticalIncidentList.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    private CriticalIncidentDTO convertToDTO(CriticalIncidentTable criticalIncident) {
+        return new CriticalIncidentDTO(
+                criticalIncident.getId(),
+                criticalIncident.getReportedBy(),
+                criticalIncident.getStudentID(),
+                criticalIncident.getSessionId(),
+                criticalIncident.getIncidentDate(),
+                criticalIncident.getIncidentType(),
+                criticalIncident.getDescription(),
+                criticalIncident.getActionTaken(),
+                criticalIncident.getResolved(),
+                criticalIncident.getResolutionDetails()
+        );
+    }
+
+    public Long getCountAllCriticalIncidents() {
+        return criticalIncidentRepository.countAllCriticalIncidents();
+    }
+
+    public Long getCountUnresolvedCriticalIncidents() {
+        return criticalIncidentRepository.countUnresolvedCriticalIncidents();
+    }
+
+    public Long getCountCriticalIncidentsLast30Days() {
+        return criticalIncidentRepository.countCriticalIncidentsLast30Days();
     }
 
 }

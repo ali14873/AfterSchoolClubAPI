@@ -34,6 +34,11 @@ public class StudentTable implements UserDetails {
     @Column(name = "LastName", length = 50)
     private String lastName;
 
+    @Size(max = 50)
+    @Nationalized
+    @Column(name = "Status", length = 50)
+    private String status;
+
     @Column(name = "DateOfBirth")
     private LocalDate dateOfBirth;
 

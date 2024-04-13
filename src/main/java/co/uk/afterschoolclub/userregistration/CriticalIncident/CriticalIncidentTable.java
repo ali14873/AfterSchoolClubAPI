@@ -26,6 +26,10 @@ public class CriticalIncidentTable {
     private UUID reportedBy;
 
     @Size(max = 255)
+    @Column(name = "StudentID")
+    private UUID studentID;
+
+    @Size(max = 255)
     @Column(name = "SessionID")
     private UUID sessionId;
 

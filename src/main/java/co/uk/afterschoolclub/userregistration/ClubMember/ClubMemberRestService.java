@@ -51,4 +51,19 @@ public class ClubMemberRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    // ... other methods ...
+
+    @GetMapping("/getByClubId/{clubId}")
+    public ResponseEntity<List<ClubMemberDTO>> getClubMembersByClubId(@PathVariable UUID clubId) {
+        List<ClubMemberDTO> clubMemberDTOs = clubMemberApplicationService.getClubMembersByClubId(clubId);
+        return ResponseEntity.ok(clubMemberDTOs);
+    }
+
+    @GetMapping("/getByUserId/{userId}")
+    public ResponseEntity<List<ClubMemberDTO>> getClubMembersByUserId(@PathVariable UUID userId) {
+        List<ClubMemberDTO> clubMemberDTOs = clubMemberApplicationService.getClubMembersByUserId(userId);
+        return ResponseEntity.ok(clubMemberDTOs);
+    }
+
 }

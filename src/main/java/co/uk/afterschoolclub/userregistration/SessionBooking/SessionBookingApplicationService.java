@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionBookingApplicationService {
@@ -20,12 +21,13 @@ public class SessionBookingApplicationService {
     public SessionBookingApplicationService(SessionBookingRepositoryInterface sessionBookingRepository) {
         this.SessionBookingRepositoryInterface = sessionBookingRepository;
     }
+
     public SessionBookingDTO createSessionBooking(SessionBookingDTO request) {
         SessionBookingTable sessionBooking = SessionBookingTable.builder()
-                .SessionID(request.getSessionID())
-                .UserID(request.getUserID())
-                .BookingType(request.getBookingType())
-                .Status(request.getStatus())
+                .sessionID(request.getSessionID())
+                .userId(request.getUserID())
+                .bookingType(request.getBookingType())
+                .status(request.getStatus())
                 .build();
         sessionBooking = SessionBookingRepositoryInterface.save(sessionBooking);
         request.setId(sessionBooking.getId());
@@ -35,11 +37,11 @@ public class SessionBookingApplicationService {
 
     public List<SessionBookingDTO> getAllSessionBookings() {
         List<SessionBookingDTO> sessionBookingDTO = new ArrayList<SessionBookingDTO>();
-        for(SessionBookingTable sessionBookingTable: SessionBookingRepositoryInterface.findAll()){
+        for (SessionBookingTable sessionBookingTable : SessionBookingRepositoryInterface.findAll()) {
             SessionBookingDTO dto = SessionBookingDTO.builder()
                     .id(sessionBookingTable.getId())
                     .SessionID(sessionBookingTable.getSessionID())
-                    .UserID(sessionBookingTable.getUserID())
+                    .UserID(sessionBookingTable.getUserId())
                     .BookingType(sessionBookingTable.getBookingType())
                     .Status(sessionBookingTable.getStatus())
                     .build();
@@ -67,7 +69,7 @@ public class SessionBookingApplicationService {
         }
         SessionBookingTable booking = bookingOptional.get();
         booking.setSessionID(sessionBookingDTO.getSessionID());
-        booking.setUserID(sessionBookingDTO.getUserID());
+        booking.setUserId(sessionBookingDTO.getUserID());
         booking.setBookingType(sessionBookingDTO.getBookingType());
         booking.setStatus(sessionBookingDTO.getStatus());
         SessionBookingRepositoryInterface.save(booking);
@@ -83,7 +85,7 @@ public class SessionBookingApplicationService {
             return new SessionBookingDTO(
                     booking.getId(),
                     booking.getSessionID(),
-                    booking.getUserID(),
+                    booking.getUserId(),
                     booking.getBookingType(),
                     booking.getStatus()
             );
@@ -92,4 +94,23 @@ public class SessionBookingApplicationService {
         }
     }
 
+    public List<SessionBookingDTO> getSessionBookingsBySessionID(UUID sessionID) {
+        List<SessionBookingTable> bookings = SessionBookingRepositoryInterface.findBySessionID(sessionID);
+        return bookings.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public List<SessionBookingDTO> getSessionBookingsByUserID(UUID userID) {
+        List<SessionBookingTable> bookings = SessionBookingRepositoryInterface.findByUserId(userID);
+        return bookings.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    private SessionBookingDTO convertToDTO(SessionBookingTable booking) {
+        return new SessionBookingDTO(
+                booking.getId(),
+                booking.getSessionID(),
+                booking.getUserId(),
+                booking.getBookingType(),
+                booking.getStatus()
+        );
+    }
 }

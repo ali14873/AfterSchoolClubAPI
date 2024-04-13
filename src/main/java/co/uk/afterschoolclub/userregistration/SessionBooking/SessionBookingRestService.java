@@ -64,4 +64,24 @@ public class SessionBookingRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/bySession/{sessionID}")
+    public ResponseEntity<List<SessionBookingDTO>> getSessionBookingsBySessionID(@PathVariable UUID sessionID) {
+        try {
+            List<SessionBookingDTO> bookings = sessionBookingApplicationService.getSessionBookingsBySessionID(sessionID);
+            return ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/byUser/{userID}")
+    public ResponseEntity<List<SessionBookingDTO>> getSessionBookingsByUserID(@PathVariable UUID userID) {
+        try {
+            List<SessionBookingDTO> bookings = sessionBookingApplicationService.getSessionBookingsByUserID(userID);
+            return ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

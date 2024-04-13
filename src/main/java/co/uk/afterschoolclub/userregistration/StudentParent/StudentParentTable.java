@@ -22,15 +22,13 @@ public class StudentParentTable {
     @Column(name = "StudentParentID", nullable = false)
     private UUID id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "StudentID", nullable = false)
-    private StudentTable studentID;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ParentID", nullable = false)
-    private ParentTable parentID;
+    @Column(name = "StudentID", nullable = false)
+    private UUID studentID;
+
+
+    @Column(name = "ParentID", nullable = false)
+    private UUID parentID;
 
     @Size(max = 50)
     @Column(name = "RelationshipType", length = 50)

@@ -72,6 +72,25 @@ public class StudentRestService {
         }
     }
 
+    @GetMapping("/countAll")
+    public ResponseEntity<Long> countAllStudents(){
+        Long count = studentApplicationService.countAllStudents();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/countActive")
+    public ResponseEntity<Long> countActiveStudents(){
+        Long count = studentApplicationService.countActiveStudents();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/countNextMonthBirthdays")
+    public ResponseEntity<Long> countNextMonthBirthdays() {
+        Long count = studentApplicationService.countNextMonthBirthdays();
+        return ResponseEntity.ok(count);
+    }
+
+
 
 
 

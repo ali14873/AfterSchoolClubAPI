@@ -14,6 +14,7 @@ public class StudentDTO {
     private UUID id;
     private String firstName;
     private String lastName;
+    private String status;
     private LocalDate dateOfBirth;
     private String gender;
     private String yearGroup;

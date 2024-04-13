@@ -20,6 +20,26 @@ import java.util.UUID;
 @Table(name = "sessionBookingTable")
 public class SessionBookingTable {
 
+//    @Id
+//    @Column(name = "BookingID", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private UUID id;
+//
+//    @NotNull
+//    @JoinColumn(name = "SessionID")
+//    private UUID SessionID;
+//
+//    @NotNull
+//    @Column(name = "UserID")
+//    private UUID UserID;
+//
+//    @Size(max = 255)
+//    @Column(name = "BookingType")
+//    private String BookingType;
+//
+//    @Size(max = 255)
+//    @Column(name = "Status")
+//    private String Status;
     @Id
     @Column(name = "BookingID", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,18 +47,18 @@ public class SessionBookingTable {
 
     @NotNull
     @JoinColumn(name = "SessionID")
-    private UUID SessionID;
+    private UUID sessionID; // Ensure this follows Java naming conventions too
 
     @NotNull
     @Column(name = "UserID")
-    private UUID UserID;
+    private UUID userId; // Refactored from UserID to userId
 
     @Size(max = 255)
     @Column(name = "BookingType")
-    private String BookingType;
+    private String bookingType;
 
     @Size(max = 255)
     @Column(name = "Status")
-    private String Status;
+    private String status;
 
   }

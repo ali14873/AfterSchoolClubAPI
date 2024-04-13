@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ClubMemberApplicationService {
@@ -23,9 +24,9 @@ public class ClubMemberApplicationService {
     public ClubMemberDTO createClubMember(ClubMemberDTO request) {
         ClubMemberTable clubMember = ClubMemberTable.builder()
                 .id(request.getId())
-                .ClubID(request.getClubID())
+                .clubId(request.getClubID())
                 .MembershipStatus(request.getMembershipStatus())
-                .UserId(request.getUserID())
+                .userId(request.getUserID())
                 .build();
         clubMemberRepository.save(clubMember);
         return request;
@@ -36,7 +37,7 @@ public class ClubMemberApplicationService {
         for (ClubMemberTable member : clubMemberRepository.findAll()) {
             ClubMemberDTO dto = new ClubMemberDTO(
                     member.getId(),
-                    member.getClubID(),
+                    member.getClubId(),
                     member.getMembershipStatus(),
                     member.getUserId()
             );
@@ -49,7 +50,7 @@ public class ClubMemberApplicationService {
         ClubMemberTable clubMember = clubMemberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ClubMember not found with ID: " + id));
 
-        clubMember.setClubID(clubMemberDTO.getClubID());
+        clubMember.setClubId(clubMemberDTO.getClubID());
         clubMember.setMembershipStatus(clubMemberDTO.getMembershipStatus());
         clubMember.setUserId(clubMemberDTO.getUserID());
 
@@ -65,5 +66,28 @@ public class ClubMemberApplicationService {
         clubMemberRepository.delete(clubMember);
     }
 
+
+
+    public List<ClubMemberDTO> getClubMembersByClubId(UUID clubId) {
+        List<ClubMemberTable> clubMemberTables = clubMemberRepository.findByClubId(clubId);
+        return clubMemberTables.stream()
+                .map(member -> new ClubMemberDTO(
+                        member.getId(),
+                        member.getClubId(),
+                        member.getMembershipStatus(),
+                        member.getUserId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<ClubMemberDTO> getClubMembersByUserId(UUID userId) {
+        List<ClubMemberTable> clubMemberTables = clubMemberRepository.findByUserId(userId);
+        return clubMemberTables.stream()
+                .map(member -> new ClubMemberDTO(
+                        member.getId(),
+                        member.getClubId(),
+                        member.getMembershipStatus(),
+                        member.getUserId()))
+                .collect(Collectors.toList());
+    }
 
 }

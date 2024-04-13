@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.CriticalIncident;
 
+import co.uk.afterschoolclub.userregistration.EmergencyContact.EmergencyContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,12 @@ public class CriticalIncidentRestService {
         }
     }
 
+    @GetMapping("/getByStudentID/{id}")
+    public ResponseEntity<List<CriticalIncidentDTO>> getCriticalIncidentByStudentId(@PathVariable UUID id){
+        List<CriticalIncidentDTO> CriticalIncidentDTOlist = criticalIncidentApplicationService.getCriticalIncidentByStudentId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(CriticalIncidentDTOlist);
+    }
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<CriticalIncidentDTO> updateCriticalIncident(@PathVariable UUID id, @RequestBody CriticalIncidentDTO criticalIncidentDTO) {
         try {
@@ -68,4 +75,20 @@ public class CriticalIncidentRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/count/all")
+    public ResponseEntity<Long> getCountAllCriticalIncidents() {
+        return ResponseEntity.ok(criticalIncidentApplicationService.getCountAllCriticalIncidents());
+    }
+
+    @GetMapping("/count/unresolved")
+    public ResponseEntity<Long> getCountUnresolvedCriticalIncidents() {
+        return ResponseEntity.ok(criticalIncidentApplicationService.getCountUnresolvedCriticalIncidents());
+    }
+
+    @GetMapping("/count/last30days")
+    public ResponseEntity<Long> getCountCriticalIncidentsLast30Days() {
+        return ResponseEntity.ok(criticalIncidentApplicationService.getCountCriticalIncidentsLast30Days());
+    }
+
 }

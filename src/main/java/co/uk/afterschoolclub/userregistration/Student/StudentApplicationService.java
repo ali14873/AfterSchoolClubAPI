@@ -4,6 +4,8 @@ import com.opencsv.CSVReader;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
@@ -26,6 +28,7 @@ public class StudentApplicationService {
         StudentTable student = StudentTable.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .status(request.getStatus())
                 .gender(request.getGender())
                 .dateOfBirth(request.getDateOfBirth())
                 .yearGroup(request.getYearGroup())
@@ -42,6 +45,7 @@ public class StudentApplicationService {
                     .id(student.getId())
                     .firstName(student.getFirstName())
                     .lastName(student.getLastName())
+                    .status(student.getStatus())
                     .dateOfBirth(student.getDateOfBirth())
                     .gender(student.getGender())
                     .yearGroup(student.getYearGroup())
@@ -60,6 +64,7 @@ public class StudentApplicationService {
             return StudentDTO.builder()
                     .firstName(student.getFirstName())
                     .lastName(student.getLastName())
+                    .status(student.getStatus())
                     .gender(student.getGender())
                     .dateOfBirth(student.getDateOfBirth())
                     .yearGroup(student.getYearGroup())
@@ -90,7 +95,7 @@ public class StudentApplicationService {
                 StudentDTO studentDTO = StudentDTO.builder()
                         .firstName(nextRecord[0])
                         .lastName(nextRecord[1])
-//                        .dateOfBirth(LocalDate.parse(nextRecord[2], dateFormatter))
+                        .status(nextRecord[2])
                         .gender(nextRecord[3])
                         .yearGroup(nextRecord[4])
                         .build();
@@ -103,5 +108,17 @@ public class StudentApplicationService {
         return createdStudents;
     }
 
+
+    public Long countAllStudents() {
+        return studentRepoInterface.count();
+    }
+
+    public Long countActiveStudents() {
+        return studentRepoInterface.countByStatus("active");
+    }
+
+    public Long countNextMonthBirthdays() {
+        return studentRepoInterface.countUpcomingBirthdays();
+    }
 
 }

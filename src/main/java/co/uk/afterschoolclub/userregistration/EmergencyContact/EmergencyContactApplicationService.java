@@ -1,5 +1,7 @@
 package co.uk.afterschoolclub.userregistration.EmergencyContact;
 
+import co.uk.afterschoolclub.userregistration.SessionBooking.SessionBookingDTO;
+import co.uk.afterschoolclub.userregistration.SessionBooking.SessionBookingTable;
 import com.opencsv.CSVReader;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EmergencyContactApplicationService {
@@ -36,7 +39,7 @@ public class EmergencyContactApplicationService {
 
     public List<EmergencyContactDTO> getAllEmergencyContacts() {
         List<EmergencyContactDTO> emergencyContacts = new ArrayList<>();
-        for(EmergencyContactTable contact : emergencyContactRepoInterface.findAll()) {
+        for (EmergencyContactTable contact : emergencyContactRepoInterface.findAll()) {
             EmergencyContactDTO dto = EmergencyContactDTO.builder()
                     .id(contact.getId())
                     .studentID(contact.getStudentID())
@@ -97,4 +100,22 @@ public class EmergencyContactApplicationService {
             throw new EntityNotFoundException("Parent not found with ID: " + id);
         }
     }
+
+    public List<EmergencyContactDTO> getEmergencyContactByStudentId(UUID studentId) {
+        List<EmergencyContactTable> EmergencyContactList = emergencyContactRepoInterface.findBystudentID(studentId);
+        return EmergencyContactList.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    private EmergencyContactDTO convertToDTO(EmergencyContactTable emergencyContact) {
+        return new EmergencyContactDTO(
+                emergencyContact.getId(),
+                emergencyContact.getStudentID(),
+                emergencyContact.getFirstName(),
+                emergencyContact.getLastName(),
+                emergencyContact.getEmail(),
+                emergencyContact.getPhone(),
+                emergencyContact.getRelationship()
+        );
+    }
+
 }

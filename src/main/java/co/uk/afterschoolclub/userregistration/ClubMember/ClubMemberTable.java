@@ -24,7 +24,7 @@ public class ClubMemberTable {
 
     @NotNull
     @JoinColumn(name = "ClubID", nullable = false)
-    private UUID ClubID;
+    private UUID clubId;
 
     @Size(max = 255)
     @Column(name = "MembershipStatus")
@@ -32,6 +32,6 @@ public class ClubMemberTable {
 
     @Size(max = 255)
     @Column(name = "UserId")
-    private UUID UserId;
+    private UUID userId;
 
 }

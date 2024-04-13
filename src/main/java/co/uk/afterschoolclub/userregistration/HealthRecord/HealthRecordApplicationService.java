@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class HealthRecordApplicationService {
@@ -85,6 +86,33 @@ public class HealthRecordApplicationService {
 
         return healthRecordDTO;
 
+    }
+
+    public List<HealthRecordDTO> getHealthRecordsByStudentId(UUID studentId) {
+        List<HealthRecordTable> records = healthRecordRepoInterface.findByStudentID(studentId);
+        return records.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    public long getCountOfHealthRecords() {
+        return healthRecordRepoInterface.count();
+    }
+
+    public long getCountOfIncompleteHealthRecords() {
+        return healthRecordRepoInterface.countIncompleteHealthRecords();
+    }
+
+    private HealthRecordDTO convertToDTO(HealthRecordTable record) {
+        return HealthRecordDTO.builder()
+                .id(record.getId())
+                .studentID(record.getStudentID())
+                .condition(record.getCondition())
+                .details(record.getDetails())
+                .medication(record.getMedication())
+                .build();
+    }
+
+    public long getCountOfStudentsWithAtLeastOneHealthRecord() {
+        return healthRecordRepoInterface.countStudentsWithHealthRecords();
     }
 
 }

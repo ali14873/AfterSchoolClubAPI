@@ -14,8 +14,8 @@ import java.util.UUID;
 public class StudentParentDTO {
 
     private UUID id;
-    private StudentTable studentID;
-    private ParentTable parentID;
+    private UUID studentID;
+    private UUID parentID;
     private String relationshipType;
 
 }

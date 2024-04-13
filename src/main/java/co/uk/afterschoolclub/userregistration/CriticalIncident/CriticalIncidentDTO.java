@@ -13,6 +13,7 @@ import java.util.UUID;
 public class CriticalIncidentDTO {
     private UUID incidentId;
     private UUID reportedBy;
+    private UUID studentId;
     private UUID sessionId;
     private LocalDate incidentDate;
     private String incidentType;

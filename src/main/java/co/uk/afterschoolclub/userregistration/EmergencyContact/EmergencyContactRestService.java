@@ -43,6 +43,12 @@ public class EmergencyContactRestService {
         }
     }
 
+    @GetMapping("/getByStudentID/{id}")
+    public ResponseEntity<List<EmergencyContactDTO>> getEmergencyContactByStudentId(@PathVariable UUID id){
+        List<EmergencyContactDTO> emergencyContactDTOList = emergencyContactApplicationService.getEmergencyContactByStudentId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(emergencyContactDTOList);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEmergencyContact(@PathVariable UUID id){
         try {
