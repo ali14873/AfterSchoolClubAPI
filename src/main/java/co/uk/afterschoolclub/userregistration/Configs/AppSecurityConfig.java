@@ -59,9 +59,9 @@ public class AppSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize)->authorize
-                        //.requestMatchers("/students/create").permitAll() // Explicitly permit the create endpoint
+                        .requestMatchers( "/clubInfo/**").permitAll()
                         .requestMatchers("/students/uploadCSV").permitAll() // Explicitly permit the create endpoint
-                        .requestMatchers( "/students/**","/token").hasAuthority("SCOPE_"+RoleConstants.ADMIN)
+//                        .requestMatchers( "/students/**","/token").hasAuthority("SCOPE_"+RoleConstants.ADMIN)
                         .requestMatchers( "/students/**","/token").permitAll()
                         .requestMatchers( "/allergies/**","/token").permitAll()
                         .requestMatchers( "/teacher/**","/token").permitAll()
@@ -79,7 +79,6 @@ public class AppSecurityConfig {
                         .requestMatchers( "/studentParent/**","/token").permitAll()
                         .requestMatchers( "/studentParent/**","/token").permitAll()
                         .requestMatchers( "/sessionResourceUsage/**","/token").permitAll()
-                        .requestMatchers( "/clubInfo/**","/token").permitAll()
                         .requestMatchers( "/sessionComments/**","/token").permitAll()
                         .requestMatchers( "/Attendance/**","/token").permitAll()
                         .requestMatchers( "/sessionBookings/**","/token").permitAll()
@@ -93,9 +92,9 @@ public class AppSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(jwt->jwt.jwt(Customizer.withDefaults()))
                 .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(exceptions->exceptions.
-                        authenticationEntryPoint(new CustomAuthenticationEntryPoint(){
-                        })
+                .exceptionHandling(exceptions->exceptions
+//                        authenticationEntryPoint(new CustomAuthenticationEntryPoint(){
+//                        })
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler()));
         return http.build();
     }
