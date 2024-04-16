@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+
 @RequestMapping("/clubInfo")
 public class ClubInfoRestService {
 
@@ -20,6 +21,8 @@ public class ClubInfoRestService {
         this.clubInfoApplicationService = clubInfoApplicationService;
     }
 
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/getAll")
     public ResponseEntity<List<ClubInfoDTO>> getAllClubInfo(@RequestParam Optional<UUID> userId) {
         List<ClubInfoDTO> clubInfoDTOList = clubInfoApplicationService.getAllClubInfo(userId);
