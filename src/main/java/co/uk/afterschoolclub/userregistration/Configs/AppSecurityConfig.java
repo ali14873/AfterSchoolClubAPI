@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 import java.util.List;
 
 @EnableWebSecurity
@@ -104,14 +105,19 @@ public class AppSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*")); // Allow all origins
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*")); // Allow all headers
-        configuration.setAllowCredentials(true); // Allow credentials
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Link", "X-Total-Count"));
+
+        // IMPORTANT: setAllowCredentials(true) cannot be used with setAllowedOrigins(Arrays.asList("*"))
+        // If you need to send credentials then you have to specify the exact origins.
+        // configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // Apply CORS configuration to all paths
         return source;
     }
+
 
     @Bean
     JwtDecoder jwtDecoder(){
