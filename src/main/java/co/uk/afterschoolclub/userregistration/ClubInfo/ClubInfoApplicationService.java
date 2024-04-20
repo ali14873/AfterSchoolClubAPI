@@ -42,4 +42,9 @@ public class ClubInfoApplicationService {
                 .averageRating(clubInfoView.getAverageRating() != null ? clubInfoView.getAverageRating().doubleValue() : null)
                 .build();
     }
+
+    public Optional<ClubInfoDTO> getClubInfoByClubId(UUID clubId) {
+        return clubInfoViewRepository.findByClubId(clubId)
+                .map(this::convertToClubInfoDTO);
+    }
 }

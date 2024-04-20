@@ -19,4 +19,5 @@ public class SessionCommentDTO {
     private UUID UserID;
     private String Comment;
     private Integer Rating;
+
 }

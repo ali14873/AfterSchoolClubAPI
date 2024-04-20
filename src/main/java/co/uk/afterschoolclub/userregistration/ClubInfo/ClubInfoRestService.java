@@ -29,4 +29,11 @@ public class ClubInfoRestService {
         return ResponseEntity.status(HttpStatus.OK).body(clubInfoDTOList);
 
     }
+
+    @GetMapping("/{clubId}")
+    public ResponseEntity<ClubInfoDTO> getClubInfoByClubId(@PathVariable UUID clubId) {
+        return clubInfoApplicationService.getClubInfoByClubId(clubId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

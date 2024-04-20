@@ -106,6 +106,36 @@ public class TeacherApplicationService implements UserDetailsService {
         return createdTeachers;
     }
 
+    // In TeacherApplicationService.java
+
+    public TeacherDTO updateTeacher(UUID id, TeacherDTO request) {
+        Optional<TeacherTable> teacherOptional = teacherRepoInterface.findById(id);
+        if (teacherOptional.isEmpty()) {
+            throw new EntityNotFoundException("Teacher not found with ID: " + id);
+        }
+        TeacherTable teacher = teacherOptional.get();
+        // Update fields
+        teacher.setFirstName(request.getFirstName());
+        teacher.setLastName(request.getLastName());
+        teacher.setEmail(request.getEmail());
+        teacher.setPhone(request.getPhone());
+        teacher.setPassword(encoder.encode(request.getPassword())); // Re-encode password
+        teacher.setRole(roleRepoInterface.findRoleByType(request.getRoleType()));
+
+        teacherRepoInterface.save(teacher);
+
+        return TeacherDTO.builder()
+                .id(teacher.getId())
+                .firstName(teacher.getFirstName())
+                .lastName(teacher.getLastName())
+                .email(teacher.getEmail())
+                .phone(teacher.getPhone())
+                .password(null) // It's a good practice not to return password data
+                .roleType(request.getRoleType())
+                .build();
+    }
+
+
     /**
      * Locates the user based on the username. In the actual implementation, the search
      * may possibly be case sensitive, or case insensitive depending on how the

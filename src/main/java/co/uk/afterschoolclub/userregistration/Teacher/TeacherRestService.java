@@ -43,6 +43,7 @@ public class TeacherRestService {
         }
     }
 
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTeacherById(@PathVariable UUID id) {
         try {
@@ -52,6 +53,8 @@ public class TeacherRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+
 
     @PostMapping("/uploadCSV")
     public ResponseEntity<List<TeacherDTO>> uploadTeachersCSV(@RequestParam("File") MultipartFile file) {
@@ -66,4 +69,19 @@ public class TeacherRestService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    // In TeacherRestService.java
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TeacherDTO> updateTeacher(@PathVariable UUID id, @RequestBody TeacherDTO teacherDTO) {
+        try {
+            TeacherDTO updatedTeacher = teacherApplicationService.updateTeacher(id, teacherDTO);
+            return ResponseEntity.ok(updatedTeacher);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

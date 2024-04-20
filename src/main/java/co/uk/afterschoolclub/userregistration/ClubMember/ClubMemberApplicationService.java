@@ -23,13 +23,19 @@ public class ClubMemberApplicationService {
 
     public ClubMemberDTO createClubMember(ClubMemberDTO request) {
         ClubMemberTable clubMember = ClubMemberTable.builder()
-                .id(request.getId())
                 .clubId(request.getClubID())
                 .MembershipStatus(request.getMembershipStatus())
                 .userId(request.getUserID())
                 .build();
-        clubMemberRepository.save(clubMember);
-        return request;
+
+        ClubMemberTable savedClubMember = clubMemberRepository.save(clubMember);
+
+        return new ClubMemberDTO(
+                savedClubMember.getId(),
+                savedClubMember.getClubId(),
+                savedClubMember.getMembershipStatus(),
+                savedClubMember.getUserId()
+        );
     }
 
     public List<ClubMemberDTO> getAllClubMembers() {
