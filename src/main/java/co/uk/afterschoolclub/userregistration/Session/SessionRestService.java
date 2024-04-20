@@ -43,4 +43,13 @@ public class SessionRestService {
         sessionApplicationService.deleteSessionById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/byClub/{clubId}")
+    public ResponseEntity<List<SessionDTO>> getSessionsByClubId(@PathVariable UUID clubId) {
+        List<SessionDTO> sessions = sessionApplicationService.getSessionsByClubID(clubId);
+        if (sessions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(sessions);
+    }
 }

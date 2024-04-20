@@ -23,7 +23,7 @@ public class SessionApplicationService {
 
     public SessionDTO createSession(SessionDTO request) {
         SessionTable session = SessionTable.builder()
-                .ClubID(request.getClubID())
+                .clubID(request.getClubID())
                 .SessionName(request.getSessionName())
                 .Description(request.getDescription())
                 .Date(request.getDate())
@@ -106,5 +106,20 @@ public class SessionApplicationService {
         } else {
             throw new EntityNotFoundException("Session not found with ID: " + id);
         }
+    }
+
+    public List<SessionDTO> getSessionsByClubID(UUID clubID) {
+        return sessionRepository.findByClubID(clubID).stream().map(session -> new SessionDTO(
+                session.getId(),
+                session.getClubID(),
+                session.getSessionName(),
+                session.getDescription(),
+                session.getDate(),
+                session.getStartTime(),
+                session.getEndTime(),
+                session.getLocation(),
+                session.getIsRecurring(),
+                session.getRecurrenceRule()
+        )).collect(Collectors.toList());
     }
 }

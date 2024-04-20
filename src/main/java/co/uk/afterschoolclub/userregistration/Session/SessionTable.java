@@ -26,8 +26,8 @@ public class SessionTable {
     private UUID id;
 
     @NotNull
-    @JoinColumn(name = "ClubID")
-    private UUID ClubID;
+    @Column(name = "ClubID")
+    private UUID clubID;
 
     @Size(max = 255)
     @Nationalized

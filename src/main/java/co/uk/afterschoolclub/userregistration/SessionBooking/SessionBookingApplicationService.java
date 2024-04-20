@@ -1,6 +1,8 @@
 package co.uk.afterschoolclub.userregistration.SessionBooking;
 
 import co.uk.afterschoolclub.userregistration.Student.StudentDTO;
+import co.uk.afterschoolclub.userregistration.Student.StudentRepoInterface;
+import co.uk.afterschoolclub.userregistration.Student.StudentRestService;
 import co.uk.afterschoolclub.userregistration.Student.StudentTable;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class SessionBookingApplicationService {
 
     private final SessionBookingRepositoryInterface SessionBookingRepositoryInterface;
+
+    @Autowired
+    private StudentRepoInterface studentRepository;
 
     @Autowired
     public SessionBookingApplicationService(SessionBookingRepositoryInterface sessionBookingRepository) {
@@ -112,5 +117,22 @@ public class SessionBookingApplicationService {
                 booking.getBookingType(),
                 booking.getStatus()
         );
+    }
+
+
+
+    public List<StudentTable> getStudentsBySessionId(UUID sessionId) {
+        List<SessionBookingTable> bookings = SessionBookingRepositoryInterface.findBySessionID(sessionId);
+        List<UUID> userIds = bookings.stream()
+                .map(SessionBookingTable::getUserId)
+                .distinct()
+                .toList();
+
+        List<StudentTable> students = new ArrayList<>();
+        for (UUID userId : userIds) {
+            studentRepository.findById(userId).ifPresent(students::add);
+        }
+
+        return students;
     }
 }

@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface SessionBookingRepositoryInterface extends CrudRepository<SessionBookingTable, UUID> {
     List<SessionBookingTable> findBySessionID(UUID sessionID);
-    List<SessionBookingTable> findByUserId(UUID userId); // Method name changed to match the entity field's case
+    List<SessionBookingTable> findByUserId(UUID userId);
 }

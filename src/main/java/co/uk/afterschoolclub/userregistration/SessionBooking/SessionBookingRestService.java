@@ -3,6 +3,7 @@ package co.uk.afterschoolclub.userregistration.SessionBooking;
 
 import co.uk.afterschoolclub.userregistration.Student.StudentApplicationService;
 import co.uk.afterschoolclub.userregistration.Student.StudentDTO;
+import co.uk.afterschoolclub.userregistration.Student.StudentTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,5 +84,14 @@ public class SessionBookingRestService {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/studentsBySession/{sessionId}")
+    public ResponseEntity<List<StudentTable>> getStudentsBySessionId(@PathVariable UUID sessionId) {
+        List<StudentTable> students = sessionBookingApplicationService.getStudentsBySessionId(sessionId);
+        if (students.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(students);
     }
 }
