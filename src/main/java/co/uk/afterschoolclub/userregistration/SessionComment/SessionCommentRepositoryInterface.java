@@ -8,12 +8,15 @@ import java.util.UUID;
 
 public interface SessionCommentRepositoryInterface extends CrudRepository<SessionCommentTable, UUID> {
 
-    List<SessionCommentTable> findBySessionID(UUID sessionID);
-    List<SessionCommentTable> findByUserID(UUID userID);
+    @Query("SELECT COUNT(c) FROM SessionCommentTable c WHERE c.sessionID = ?1")
+    int countBySessionID(UUID sessionID);
 
     @Query("SELECT AVG(c.rating) FROM SessionCommentTable c WHERE c.sessionID = ?1")
-    Double findAverageRatingBySessionID(UUID sessionID);
+    Double averageRatingBySessionID(UUID sessionID);
 
-    @Query("SELECT COUNT(c) FROM SessionCommentTable c WHERE c.sessionID = ?1")
-    Long countBySessionID(UUID sessionID);
+    @Query("SELECT AVG(c.rating) FROM SessionCommentTable c")
+    Double averageRatingForAllComments();
+
+    @Query("SELECT c FROM SessionCommentTable c WHERE c.sessionID = ?1")
+    List<SessionCommentTable> findBySessionID(UUID sessionID);
 }

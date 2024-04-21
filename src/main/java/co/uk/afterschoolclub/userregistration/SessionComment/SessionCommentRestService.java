@@ -21,6 +21,7 @@ public class SessionCommentRestService {
 
     @PostMapping("/create")
     public ResponseEntity<SessionCommentDTO> createSessionComment(@RequestBody SessionCommentDTO sessionCommentDTO) {
+        System.out.println("Received: " + sessionCommentDTO);
         SessionCommentDTO createdComment = sessionCommentApplicationService.createSessionComment(sessionCommentDTO);
         return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
@@ -59,6 +60,34 @@ public class SessionCommentRestService {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    // Endpoint to get all comments by session ID
+    @GetMapping("/getAllBySessionId/{sessionId}")
+    public ResponseEntity<List<SessionCommentDTO>> getAllSessionCommentsBySessionId(@PathVariable UUID sessionId) {
+        List<SessionCommentDTO> comments = sessionCommentApplicationService.getAllSessionCommentsBySessionId(sessionId);
+        return ResponseEntity.ok(comments);
+    }
+
+    // Endpoint to get count of comments by session ID
+    @GetMapping("/getCountBySessionId/{sessionId}")
+    public ResponseEntity<Integer> getCountBySessionId(@PathVariable UUID sessionId) {
+        int count = sessionCommentApplicationService.getCountBySessionId(sessionId);
+        return ResponseEntity.ok(count);
+    }
+
+    // Endpoint to get average rating by session ID
+    @GetMapping("/getAverageRatingBySessionId/{sessionId}")
+    public ResponseEntity<Double> getAverageRatingBySessionId(@PathVariable UUID sessionId) {
+        Double average = sessionCommentApplicationService.getAverageRatingBySessionId(sessionId);
+        return ResponseEntity.ok(average);
+    }
+
+    // Endpoint to get average rating for all comments
+    @GetMapping("/getAverageRatingForAll")
+    public ResponseEntity<Double> getAverageRatingForAll() {
+        Double average = sessionCommentApplicationService.getAverageRatingForAllComments();
+        return ResponseEntity.ok(average);
     }
 
 

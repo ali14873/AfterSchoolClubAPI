@@ -119,8 +119,8 @@ public class TeacherApplicationService implements UserDetailsService {
         teacher.setLastName(request.getLastName());
         teacher.setEmail(request.getEmail());
         teacher.setPhone(request.getPhone());
-        teacher.setPassword(encoder.encode(request.getPassword())); // Re-encode password
-        teacher.setRole(roleRepoInterface.findRoleByType(request.getRoleType()));
+//        teacher.setPassword(encoder.encode(request.getPassword())); // Re-encode password
+//        teacher.setRole(roleRepoInterface.findRoleByType(request.getRoleType()));
 
         teacherRepoInterface.save(teacher);
 
@@ -130,8 +130,8 @@ public class TeacherApplicationService implements UserDetailsService {
                 .lastName(teacher.getLastName())
                 .email(teacher.getEmail())
                 .phone(teacher.getPhone())
-                .password(null) // It's a good practice not to return password data
-                .roleType(request.getRoleType())
+//                .password(null) // It's a good practice not to return password data
+//                .roleType(request.getRoleType())
                 .build();
     }
 

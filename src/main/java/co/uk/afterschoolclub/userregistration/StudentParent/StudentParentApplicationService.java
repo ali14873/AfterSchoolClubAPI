@@ -1,5 +1,7 @@
 package co.uk.afterschoolclub.userregistration.StudentParent;
 
+import co.uk.afterschoolclub.userregistration.Student.StudentDTO;
+import co.uk.afterschoolclub.userregistration.Student.StudentRepoInterface;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,14 @@ import java.util.stream.Collectors;
 public class StudentParentApplicationService {
 
     private final StudentParentRepoInterface studentParentRepoInterface;
+    private final StudentRepoInterface studentRepoInterface;
+
 
     @Autowired
-    public StudentParentApplicationService(StudentParentRepoInterface studentParentRepoInterface) {
+    public StudentParentApplicationService(StudentParentRepoInterface studentParentRepoInterface,
+                                           StudentRepoInterface studentRepoInterface) {
         this.studentParentRepoInterface = studentParentRepoInterface;
+        this.studentRepoInterface = studentRepoInterface;
     }
 
     public StudentParentDTO createStudentParent(StudentParentDTO request) {
@@ -75,5 +81,28 @@ public class StudentParentApplicationService {
             throw new EntityNotFoundException("StudentParent association not found with ID: " + id);
         }
         studentParentRepoInterface.deleteById(id);
+    }
+
+
+
+    public List<StudentDTO> getStudentsByParentId(UUID parentId) {
+        // First, fetch the relations
+        List<UUID> studentIds = studentParentRepoInterface.findByParentID(parentId)
+                .stream()
+                .map(StudentParentTable::getStudentID)
+                .collect(Collectors.toList());
+
+        // Then, fetch student details using a builder pattern
+        return studentRepoInterface.findAllById(studentIds)
+                .stream()
+                .map(student -> StudentDTO.builder()
+                        .id(student.getId())
+                        .firstName(student.getFirstName())
+                        .lastName(student.getLastName())
+                        .dateOfBirth(student.getDateOfBirth())
+                        .gender(student.getGender())
+                        .yearGroup(student.getYearGroup())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

@@ -21,7 +21,6 @@ public class SessionCommentApplicationService {
         this.sessionCommentRepository = sessionCommentRepository;
     }
 
-    @Transactional
     public SessionCommentDTO createSessionComment(SessionCommentDTO sessionCommentDTO) {
         SessionCommentTable sessionComment = SessionCommentTable.builder()
                 .sessionID(sessionCommentDTO.getSessionID())
@@ -90,5 +89,27 @@ public class SessionCommentApplicationService {
 
     public void deleteSessionCommentById(UUID id) {
         sessionCommentRepository.deleteById(id);
+    }
+
+    public List<SessionCommentDTO> getAllSessionCommentsBySessionId(UUID sessionId) {
+        return sessionCommentRepository.findBySessionID(sessionId).stream()
+                .map(comment -> new SessionCommentDTO(
+                        comment.getId(),
+                        comment.getSessionID(),
+                        comment.getUserID(),
+                        comment.getComment(),
+                        comment.getRating()
+                )).collect(Collectors.toList());
+    }
+    public int getCountBySessionId(UUID sessionId) {
+        return sessionCommentRepository.countBySessionID(sessionId);
+    }
+
+    public Double getAverageRatingBySessionId(UUID sessionId) {
+        return sessionCommentRepository.averageRatingBySessionID(sessionId);
+    }
+
+    public Double getAverageRatingForAllComments() {
+        return sessionCommentRepository.averageRatingForAllComments();
     }
 }

@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.StudentParent;
 
+import co.uk.afterschoolclub.userregistration.Student.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +61,19 @@ public class StudentParentRestService {
             studentParentApplicationService.deleteStudentParentById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/getStudentsByParent/{parentId}")
+    public ResponseEntity<List<StudentDTO>> getStudentsByParent(@PathVariable UUID parentId) {
+        try {
+            List<StudentDTO> students = studentParentApplicationService.getStudentsByParentId(parentId);
+            if (students.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(students);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }

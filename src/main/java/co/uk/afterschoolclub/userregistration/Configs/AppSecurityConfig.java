@@ -69,6 +69,7 @@ public class AppSecurityConfig {
                         .requestMatchers( "/studentEmergencyInfo/**","/token").permitAll()
                         .requestMatchers( "/studentClubEnrollments/**","/token").permitAll()
                         .requestMatchers( "/resource-summary/**","/token").permitAll()
+                        .requestMatchers( "/sessionComments/**","/token").permitAll()
                         .requestMatchers( "/clubSessionResourceInfo/**","/token").permitAll()
                         .requestMatchers( "/parent/**","/token").permitAll()
                         .requestMatchers( "/sessions/**","/token").permitAll()
