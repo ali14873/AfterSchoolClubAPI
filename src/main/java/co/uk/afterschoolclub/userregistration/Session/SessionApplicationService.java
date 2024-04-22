@@ -34,8 +34,6 @@ public class SessionApplicationService {
                 .SessionName(request.getSessionName())
                 .Description(request.getDescription())
                 .Date(request.getDate())
-                .StartTime(request.getStartTime())
-                .EndTime(request.getEndTime())
                 .Location(request.getLocation())
                 .IsRecurring(request.getIsRecurring())
                 .recurringDetails(recurringDetailsJson)
@@ -53,7 +51,6 @@ public class SessionApplicationService {
                 recurringDetails = objectMapper.readValue(session.getRecurringDetails(), RecurringDTO.class);
             } catch (JsonProcessingException e) {
                 // Handle JSON parsing error
-                // Depending on your application's requirements, you might want to log this error or handle it accordingly.
             }
 
 
@@ -62,8 +59,6 @@ public class SessionApplicationService {
                     .clubID(session.getClubID())
                     .sessionName(session.getSessionName())
                     .description(session.getDescription())
-                    .startTime(session.getStartTime())
-                    .endTime(session.getEndTime())
                     .location(session.getLocation())
                     .recurring(recurringDetails)
                     .build();
@@ -86,8 +81,6 @@ public class SessionApplicationService {
             session.setSessionName(sessionDTO.getSessionName());
             session.setDescription(sessionDTO.getDescription());
             session.setDate(sessionDTO.getDate());
-            session.setStartTime(sessionDTO.getStartTime());
-            session.setEndTime(sessionDTO.getEndTime());
             session.setLocation(sessionDTO.getLocation());
             session.setIsRecurring(sessionDTO.getIsRecurring());
             session.setRecurringDetails(recurringDetailsJson);
@@ -99,7 +92,7 @@ public class SessionApplicationService {
             throw new RuntimeException("Failed to serialize recurring details", e);
         }
 
-        return sessionDTO; // Return the modified DTO
+        return sessionDTO;
     }
 
 
@@ -115,8 +108,6 @@ public class SessionApplicationService {
             try {
                 recurringDetails = objectMapper.readValue(session.getRecurringDetails(), RecurringDTO.class);
             } catch (JsonProcessingException e) {
-                // Handle JSON parsing error. Log this error or handle it accordingly.
-                // For simplicity, throwing a runtime exception, but in real scenarios, it should be handled more gracefully.
                 throw new RuntimeException("Error parsing recurring details", e);
             }
         }
@@ -127,8 +118,6 @@ public class SessionApplicationService {
                 .sessionName(session.getSessionName())
                 .description(session.getDescription())
                 .date(session.getDate())
-                .startTime(session.getStartTime())
-                .endTime(session.getEndTime())
                 .location(session.getLocation())
                 .isRecurring(session.getIsRecurring())
                 .recurring(recurringDetails)
@@ -164,8 +153,6 @@ public class SessionApplicationService {
                     .sessionName(session.getSessionName())
                     .description(session.getDescription())
                     .date(session.getDate())
-                    .startTime(session.getStartTime())
-                    .endTime(session.getEndTime())
                     .location(session.getLocation())
                     .isRecurring(session.getIsRecurring())
                     .recurring(recurringDetails) // Replace this with the RecurringDTO object parsed from JSON

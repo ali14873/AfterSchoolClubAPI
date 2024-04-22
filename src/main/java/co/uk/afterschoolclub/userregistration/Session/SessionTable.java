@@ -42,11 +42,11 @@ public class SessionTable {
     @Column(name = "Date")
     private LocalDate Date;
 
-    @Column(name = "StartTime")
-    private Time StartTime;
-
-    @Column(name = "EndTime")
-    private Time EndTime;
+//    @Column(name = "StartTime")
+//    private Time StartTime;
+//
+//    @Column(name = "EndTime")
+//    private Time EndTime;
 
     @Size(max = 255)
     @Column(name = "Location")
