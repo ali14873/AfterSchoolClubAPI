@@ -15,9 +15,11 @@ import java.util.UUID;
 public class SessionCommentDTO {
 
     private UUID id;
+    private UUID clubId;  // New field
     private UUID SessionID;
     private UUID UserID;
     private String Comment;
     private Integer Rating;
+
 }
 

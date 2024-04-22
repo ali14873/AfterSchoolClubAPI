@@ -20,6 +20,9 @@ public class SessionCommentTable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "ClubID")  // New field
+    private UUID clubId;
+
     @Column(name = "SessionID")
     private UUID sessionID;
 

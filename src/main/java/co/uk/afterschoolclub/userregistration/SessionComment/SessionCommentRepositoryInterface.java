@@ -19,4 +19,13 @@ public interface SessionCommentRepositoryInterface extends CrudRepository<Sessio
 
     @Query("SELECT c FROM SessionCommentTable c WHERE c.sessionID = ?1")
     List<SessionCommentTable> findBySessionID(UUID sessionID);
+
+    List<SessionCommentTable> findByClubId(UUID clubId);
+
+    @Query("SELECT COUNT(c) FROM SessionCommentTable c WHERE c.clubId = ?1")
+    int countByClubId(UUID clubId);
+
+    @Query("SELECT AVG(c.rating) FROM SessionCommentTable c WHERE c.clubId = ?1")
+    Double averageRatingByClubId(UUID clubId);
+
 }

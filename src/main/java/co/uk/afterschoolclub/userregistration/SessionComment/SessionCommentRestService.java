@@ -62,6 +62,15 @@ public class SessionCommentRestService {
         }
     }
 
+    @GetMapping("/getAllByClubId/{clubId}")
+    public ResponseEntity<List<SessionCommentDTO>> getAllSessionCommentsByClubId(@PathVariable UUID clubId) {
+        List<SessionCommentDTO> comments = sessionCommentApplicationService.getAllSessionCommentsByClubId(clubId);
+        if (comments.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(comments);
+    }
+
     // Endpoint to get all comments by session ID
     @GetMapping("/getAllBySessionId/{sessionId}")
     public ResponseEntity<List<SessionCommentDTO>> getAllSessionCommentsBySessionId(@PathVariable UUID sessionId) {
@@ -89,6 +98,19 @@ public class SessionCommentRestService {
         Double average = sessionCommentApplicationService.getAverageRatingForAllComments();
         return ResponseEntity.ok(average);
     }
+
+    @GetMapping("/countByClubId/{clubId}")
+    public ResponseEntity<Integer> getCountByClubId(@PathVariable UUID clubId) {
+        int count = sessionCommentApplicationService.getCountByClubId(clubId);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/averageRatingByClubId/{clubId}")
+    public ResponseEntity<Double> getAverageRatingByClubId(@PathVariable UUID clubId) {
+        Double average = sessionCommentApplicationService.getAverageRatingByClubId(clubId);
+        return ResponseEntity.ok(average);
+    }
+
 
 
 }
