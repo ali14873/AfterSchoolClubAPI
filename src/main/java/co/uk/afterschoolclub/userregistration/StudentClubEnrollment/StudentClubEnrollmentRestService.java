@@ -17,19 +17,16 @@ public class StudentClubEnrollmentRestService {
 
     @GetMapping("/students-without-clubs")
     public ResponseEntity<?> getStudentsWithoutClubs() {
-        // Implement logic to get students without clubs
         return ResponseEntity.ok(service.countStudentsWithoutClubs());
     }
 
     @GetMapping("/students-enrolled-in-clubs")
     public ResponseEntity<?> getStudentsEnrolledInClubs() {
-        // Implement logic to get students enrolled in clubs
         return ResponseEntity.ok(service.countStudentsEnrolledInClubs());
     }
 
     @GetMapping("/count-of-clubs")
     public ResponseEntity<?> getCountOfClubs() {
-        // Implement logic to get count of clubs
         return ResponseEntity.ok(service.countOfClubs());
     }
 }

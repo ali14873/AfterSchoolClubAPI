@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.Session;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class SessionRestService {
     }
 
     @PostMapping("create")
-    public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO dto) {
+    public ResponseEntity<SessionDTO> createSession(@RequestBody SessionDTO dto) throws JsonProcessingException {
         SessionDTO createdSession = sessionApplicationService.createSession(dto);
         return new ResponseEntity<>(createdSession, HttpStatus.CREATED);
     }

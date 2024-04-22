@@ -10,10 +10,10 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class SessionDTO {
     private UUID id;
@@ -25,10 +25,6 @@ public class SessionDTO {
     private Time endTime;
     private String location;
     private Boolean isRecurring;
-    private String recurrenceType;
-    private String recurrenceDaysOfWeek; // "MON,TUE", etc.
-    private Integer recurrenceDayOfMonth; // 1-31
-    private String recurrenceMonthsOfYear; // "JAN,FEB,MAR", etc.
-    private Integer recurrenceInterval;
-    private String recurrenceRule; // This could potentially hold a more complex recurrence rule if needed
+    private RecurringDTO recurring; // Adjusted to use nested DTO
 }
+
