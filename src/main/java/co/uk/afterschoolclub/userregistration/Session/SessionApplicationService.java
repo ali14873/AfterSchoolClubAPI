@@ -32,6 +32,11 @@ public class SessionApplicationService {
                 .Location(request.getLocation())
                 .IsRecurring(request.getIsRecurring())
                 .RecurrenceRule(request.getRecurrenceRule())
+                .recurrenceType(request.getRecurrenceType())
+                .recurrenceDaysOfWeek(request.getRecurrenceDaysOfWeek())
+                .recurrenceDayOfMonth(request.getRecurrenceDayOfMonth())
+                .recurrenceMonthsOfYear(request.getRecurrenceMonthsOfYear())
+                .recurrenceInterval(request.getRecurrenceInterval())
                 .build();
         session = sessionRepository.save(session);
         request.setId(session.getId());
@@ -51,6 +56,11 @@ public class SessionApplicationService {
                     session.getEndTime(),
                     session.getLocation(),
                     session.getIsRecurring(),
+                    session.getRecurrenceRule(),
+                    session.getRecurrenceDaysOfWeek(),
+                    session.getRecurrenceDayOfMonth(),
+                    session.getRecurrenceMonthsOfYear(),
+                    session.getRecurrenceInterval(),
                     session.getRecurrenceRule()
             );
             sessions.add(dto);
@@ -73,6 +83,11 @@ public class SessionApplicationService {
         session.setLocation(sessionDTO.getLocation());
         session.setIsRecurring(sessionDTO.getIsRecurring());
         session.setRecurrenceRule(sessionDTO.getRecurrenceRule());
+        session.setRecurrenceType(sessionDTO.getRecurrenceType());
+        session.setRecurrenceDaysOfWeek(sessionDTO.getRecurrenceDaysOfWeek());
+        session.setRecurrenceDayOfMonth(sessionDTO.getRecurrenceDayOfMonth());
+        session.setRecurrenceMonthsOfYear(sessionDTO.getRecurrenceMonthsOfYear());
+        session.setRecurrenceInterval(sessionDTO.getRecurrenceInterval());
         sessionRepository.save(session);
         return sessionDTO; // Return updated DTO, possibly after re-fetching or updating from the entity
     }
@@ -92,6 +107,11 @@ public class SessionApplicationService {
                     session.getEndTime(),
                     session.getLocation(),
                     session.getIsRecurring(),
+                    session.getRecurrenceRule(),
+                    session.getRecurrenceDaysOfWeek(),
+                    session.getRecurrenceDayOfMonth(),
+                    session.getRecurrenceMonthsOfYear(),
+                    session.getRecurrenceInterval(),
                     session.getRecurrenceRule()
             );
         } else {
@@ -119,6 +139,11 @@ public class SessionApplicationService {
                 session.getEndTime(),
                 session.getLocation(),
                 session.getIsRecurring(),
+                session.getRecurrenceRule(),
+                session.getRecurrenceDaysOfWeek(),
+                session.getRecurrenceDayOfMonth(),
+                session.getRecurrenceMonthsOfYear(),
+                session.getRecurrenceInterval(),
                 session.getRecurrenceRule()
         )).collect(Collectors.toList());
     }

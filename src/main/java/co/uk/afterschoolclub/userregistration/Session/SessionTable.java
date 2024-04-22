@@ -59,4 +59,20 @@ public class SessionTable {
     @Column(name = "RecurrenceRule")
     private String RecurrenceRule;
 
+    @Column(name = "RecurrenceType")
+    private String recurrenceType;
+
+    @Column(name = "RecurrenceDaysOfWeek")
+    private String recurrenceDaysOfWeek; // for weekly recurrence, could be "MON,TUE,WED"
+
+    @Column(name = "RecurrenceDayOfMonth")
+    private Integer recurrenceDayOfMonth; // for monthly recurrence
+
+    @Column(name = "RecurrenceMonthsOfYear")
+    private String recurrenceMonthsOfYear; // for yearly recurrence, could be "JAN,FEB,MAR"
+
+    @Column(name = "RecurrenceInterval")
+    private Integer recurrenceInterval; // the interval between recurrences, like every 2 days, or every 3 weeks
+
+
 }

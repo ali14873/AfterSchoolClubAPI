@@ -17,13 +17,18 @@ import java.util.UUID;
 @Builder
 public class SessionDTO {
     private UUID id;
-    private UUID ClubID;
-    private String SessionName;
-    private String Description;
-    private LocalDate Date;
-    private Time StartTime;
-    private Time EndTime;
-    private String Location;
-    private Boolean IsRecurring;
-    private String RecurrenceRule;
+    private UUID clubID;
+    private String sessionName;
+    private String description;
+    private LocalDate date;
+    private Time startTime;
+    private Time endTime;
+    private String location;
+    private Boolean isRecurring;
+    private String recurrenceType;
+    private String recurrenceDaysOfWeek; // "MON,TUE", etc.
+    private Integer recurrenceDayOfMonth; // 1-31
+    private String recurrenceMonthsOfYear; // "JAN,FEB,MAR", etc.
+    private Integer recurrenceInterval;
+    private String recurrenceRule; // This could potentially hold a more complex recurrence rule if needed
 }
