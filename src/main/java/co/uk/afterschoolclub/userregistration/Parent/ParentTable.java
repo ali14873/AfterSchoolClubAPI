@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.Parent;
 
+import co.uk.afterschoolclub.userregistration.Auth.IUserDetails;
 import co.uk.afterschoolclub.userregistration.Roles.RoleTable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "ParentTable")
-public class ParentTable implements UserDetails {
+public class ParentTable implements IUserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ParentID", nullable = false)
@@ -37,7 +38,7 @@ public class ParentTable implements UserDetails {
     private String email;
 
     @Size(max = 50)
-    @Column(name = "Password", length = 50)
+    @Column(name = "Password")
     private String password;
 
     @Size(max = 50)
@@ -65,7 +66,7 @@ public class ParentTable implements UserDetails {
      */
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     /**
@@ -76,7 +77,7 @@ public class ParentTable implements UserDetails {
      */
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     /**

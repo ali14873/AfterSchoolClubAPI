@@ -2,6 +2,7 @@ package co.uk.afterschoolclub.userregistration.Providers;
 
 import co.uk.afterschoolclub.userregistration.Auth.IUserDetails;
 import co.uk.afterschoolclub.userregistration.Constants.RoleConstants;
+import co.uk.afterschoolclub.userregistration.Parent.ParentApplicationService;
 import co.uk.afterschoolclub.userregistration.Teacher.TeacherApplicationService;
 import co.uk.afterschoolclub.userregistration.Teacher.TeacherTable;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class ClubAuthenticationProvider implements AuthenticationProvider {
 
     private TeacherApplicationService teacherApplicationService;
 
+    @Autowired
+    private ParentApplicationService parentApplicationService; // Assume you have this service
+
 
 
 
@@ -43,31 +47,35 @@ public class ClubAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if(!this.supports(authentication.getClass())){
+        if (!this.supports(authentication.getClass())) {
             return null;
         }
-        IUserDetails teacher = null;
-        String role = RoleConstants.TEACHER;
-        switch (role){
+        String username = authentication.getName();
+        String password = authentication.getCredentials().toString();
+        String role = getRole(username);  // Function to determine the role based on username
+
+        IUserDetails userDetails = null;
+        switch (role) {
             case RoleConstants.ADMIN:
+                // Admin authentication logic (if you have an AdminApplicationService)
                 break;
             case RoleConstants.TEACHER:
-                teacher = (IUserDetails) teacherApplicationService.loadUserByUsername(authentication.getName());
+                userDetails = (IUserDetails) teacherApplicationService.loadUserByUsername(username);
                 break;
             case RoleConstants.PARENT:
+                userDetails = (IUserDetails) parentApplicationService.loadUserByUsername(username);
                 break;
         }
-        if (teacher != null){
-            if (!passwordEncoder.matches(authentication.getCredentials().toString(), teacher.getPassword())){
-                return null;
-            }else{
-                UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.authenticated(teacher.getUsername(), teacher.getPassword(),teacher.getAuthorities());
-                token.setDetails(teacher);
-                return token;
-            }
+
+        if (userDetails != null && passwordEncoder.matches(password, userDetails.getPassword())) {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                    userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+            token.setDetails(userDetails);
+            return token;
         }
         return null;
     }
+
 
 
     protected String getRole(String username){

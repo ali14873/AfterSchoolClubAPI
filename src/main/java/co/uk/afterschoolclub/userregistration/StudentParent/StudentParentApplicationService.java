@@ -105,4 +105,19 @@ public class StudentParentApplicationService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public List<StudentParentDTO> getAllStudentParents() {
+        return ((List<StudentParentTable>) studentParentRepoInterface.findAll())
+                .stream()
+                .map(entity -> StudentParentDTO.builder()
+                        .id(entity.getId())
+                        .studentID(entity.getStudentID())
+                        .parentID(entity.getParentID())
+                        .relationshipType(entity.getRelationshipType())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
+
 }

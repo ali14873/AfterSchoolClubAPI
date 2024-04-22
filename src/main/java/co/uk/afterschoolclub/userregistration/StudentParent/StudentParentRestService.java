@@ -77,4 +77,18 @@ public class StudentParentRestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<StudentParentDTO>> getAllStudentParents() {
+        try {
+            List<StudentParentDTO> allStudentParents = studentParentApplicationService.getAllStudentParents();
+            if (allStudentParents.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(allStudentParents);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

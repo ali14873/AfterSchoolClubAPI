@@ -1,6 +1,7 @@
 package co.uk.afterschoolclub.userregistration.Configs;
 
 import co.uk.afterschoolclub.userregistration.Constants.RoleConstants;
+import co.uk.afterschoolclub.userregistration.Parent.ParentApplicationService;
 import co.uk.afterschoolclub.userregistration.Providers.ClubAuthenticationProvider;
 import co.uk.afterschoolclub.userregistration.Teacher.TeacherApplicationService;
 import com.nimbusds.jose.jwk.JWK;
@@ -138,12 +139,14 @@ public class AppSecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider provider(PasswordEncoder encoder, TeacherApplicationService service){
+    public AuthenticationProvider provider(PasswordEncoder encoder, TeacherApplicationService teacherService, ParentApplicationService parentService) {
         ClubAuthenticationProvider provider = new ClubAuthenticationProvider();
         provider.setPasswordEncoder(encoder);
-        provider.setTeacherApplicationService(service);
+        provider.setTeacherApplicationService(teacherService);
+        provider.setParentApplicationService(parentService);  // Set the parent service
         return provider;
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationProvider provider){
