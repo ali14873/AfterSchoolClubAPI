@@ -106,6 +106,26 @@ public class ParentApplicationService implements UserDetailsService {
         return createdParents;
     }
 
+    public ParentDTO editParent(UUID id, ParentDTO parentDTO) {
+        ParentTable parent = parentRepoInterface.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Parent not found with ID: " + id));
+
+        parent.setFirstName(parentDTO.getFirstName());
+        parent.setLastName(parentDTO.getLastName());
+        parent.setEmail(parentDTO.getEmail());
+        parent.setPhone(parentDTO.getPhone());
+        parentRepoInterface.save(parent);
+
+        return ParentDTO.builder()
+                .id(parent.getId())
+                .firstName(parent.getFirstName())
+                .lastName(parent.getLastName())
+                .email(parent.getEmail())
+                .phone(parent.getPhone())
+                .build();
+    }
+
+
     /**
      * Locates the user based on the username. In the actual implementation, the search
      * may possibly be case sensitive, or case insensitive depending on how the

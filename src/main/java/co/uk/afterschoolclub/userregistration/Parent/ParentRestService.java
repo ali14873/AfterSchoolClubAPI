@@ -66,4 +66,15 @@ public class ParentRestService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ParentDTO> editParent(@PathVariable UUID id, @RequestBody ParentDTO parentDTO) {
+        try {
+            ParentDTO updatedParent = parentApplicationService.editParent(id, parentDTO);
+            return ResponseEntity.ok(updatedParent);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }
