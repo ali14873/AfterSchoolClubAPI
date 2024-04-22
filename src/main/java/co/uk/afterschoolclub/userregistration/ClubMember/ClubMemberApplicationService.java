@@ -21,7 +21,15 @@ public class ClubMemberApplicationService {
     @Autowired
     private ClubMemberRepositoryInterface clubMemberRepository;
 
-    public ClubMemberDTO createClubMember(ClubMemberDTO request) {
+    public ClubMemberDTO createClubMember(ClubMemberDTO request) throws Exception {
+        // Check if the membership already exists
+        Optional<ClubMemberTable> existingMembership = clubMemberRepository.findByUserIdAndClubId(request.getUserID(), request.getClubID());
+        if (existingMembership.isPresent()) {
+            // If membership exists, throw an exception or return an error
+            throw new Exception("User already a member of this club.");
+        }
+
+
         ClubMemberTable clubMember = ClubMemberTable.builder()
                 .clubId(request.getClubID())
                 .MembershipStatus(request.getMembershipStatus())

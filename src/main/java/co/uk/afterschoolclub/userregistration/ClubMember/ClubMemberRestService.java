@@ -21,9 +21,13 @@ public class ClubMemberRestService {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ClubMemberDTO> createClubMember(@RequestBody final ClubMemberDTO request) {
-        ClubMemberDTO clubMember = clubMemberApplicationService.createClubMember(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(clubMember);
+    public ResponseEntity<?> createClubMember(@RequestBody final ClubMemberDTO request) {
+        try {
+            ClubMemberDTO clubMember = clubMemberApplicationService.createClubMember(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(clubMember);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/getAll")
