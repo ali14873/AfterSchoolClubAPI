@@ -66,4 +66,15 @@ public class ClubMemberRestService {
         return ResponseEntity.ok(clubMemberDTOs);
     }
 
+    @DeleteMapping("/deleteByUserIdAndClubId/{userId}/{clubId}")
+    public ResponseEntity<Void> deleteClubMemberByUserIdAndClubId(@PathVariable UUID userId, @PathVariable UUID clubId) {
+        try {
+            clubMemberApplicationService.deleteClubMemberByUserIdAndClubId(userId, clubId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package co.uk.afterschoolclub.userregistration.Session;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,4 +53,15 @@ public class SessionRestService {
         }
         return ResponseEntity.ok(sessions);
     }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<SessionDTO> getSessionById(@PathVariable UUID id) {
+        try {
+            SessionDTO session = sessionApplicationService.getSessionById(id);
+            return ResponseEntity.ok(session);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }

@@ -96,4 +96,15 @@ public class ClubMemberApplicationService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteClubMemberByUserIdAndClubId(UUID userId, UUID clubId) {
+        Optional<ClubMemberTable> member = clubMemberRepository.findByUserIdAndClubId(userId, clubId);
+        if (member.isPresent()) {
+            clubMemberRepository.delete(member.get());
+        } else {
+            throw new EntityNotFoundException("No club member found for User ID: " + userId + " and Club ID: " + clubId);
+        }
+    }
+
+
+
 }
