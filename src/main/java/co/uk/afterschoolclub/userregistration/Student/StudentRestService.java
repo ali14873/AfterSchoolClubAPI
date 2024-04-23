@@ -26,7 +26,6 @@ public class StudentRestService {
     @PostMapping("/create")
     public ResponseEntity<StudentDTO> createStudent(@RequestBody final StudentDTO request){
         StudentDTO student = studentApplicationService.createStudent(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(student);
     }
 

@@ -19,7 +19,6 @@ public class LoginRestService {
     @PostMapping("/login")
     public ResponseEntity<?> login(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()){
-            //Perform the token generation procedure and return the token as a response
             LoginResponse response = this.authService.login(authentication);
             return ResponseEntity.ok(response);
         }
